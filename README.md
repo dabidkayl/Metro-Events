@@ -1,5 +1,10 @@
 #        WORKFLOW FOR GITHUB
 
+##           Clone repository: Open terminal in VSCode and type:
+
+           git clone https://github.com/dabidkayl/Metro-Events.git
+           cd Metro-Events
+
 1. Before editing file
 
            git pull origin main
