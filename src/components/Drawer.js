@@ -22,6 +22,7 @@ import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { Link } from 'react-router-dom'
 
 const drawerWidth = 240
 
@@ -68,7 +69,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   justifyContent: 'flex-end',
 }))
 
-export default function PersistentDrawerLeft() {
+export default function PersistentDrawer() {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
 
@@ -132,9 +133,13 @@ export default function PersistentDrawerLeft() {
         </DrawerHeader>
         <Divider />
         <List>
-          {['Dashboard', 'Review', 'Events'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
+          {[
+            { text: 'Dashboard', link: '/dashboard' },
+            { text: 'Review', link: '/review' },
+            { text: 'Events', link: '/events' },
+          ].map((item, index) => (
+            <ListItem key={item.text} disablePadding>
+              <ListItemButton component={Link} to={item.link}>
                 <ListItemIcon>
                   {index === 0 ? (
                     <SpaceDashboardIcon />
@@ -144,7 +149,7 @@ export default function PersistentDrawerLeft() {
                     <EventIcon />
                   )}
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={item.text} />
               </ListItemButton>
             </ListItem>
           ))}
