@@ -1,6 +1,12 @@
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
-import Drawer from './components/Drawer'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import Login from './pages/Login'
+import Home from './pages/Home'
+import Layout from './components/Layout'
+import Dashboard from './pages/Dashboard'
+import Review from './pages/Review'
+import Register from './pages/Register'
 
 const theme = createTheme({
   typography: {
@@ -10,10 +16,26 @@ const theme = createTheme({
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <Drawer />
-      <h1>This is a test.</h1>
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+          <Route
+            path='/*'
+            element={
+              <Layout>
+                <Routes>
+                  <Route index element={<Home />} />
+                  <Route path='/dashboard' element={<Dashboard />} />
+                  <Route path='/review' element={<Review />} />
+                </Routes>
+              </Layout>
+            }
+          />
+        </Routes>
+      </ThemeProvider>
+    </BrowserRouter>
   )
 }
 
