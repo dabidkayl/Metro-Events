@@ -8,19 +8,16 @@ export default function Home() {
     axios
       .get('http://localhost:8080/users')
       .then(response => {
-        // Handle successful response
         setData(response.data)
         console.log('hello')
         console.log(response.data)
       })
       .catch(error => {
-        // Handle error
         console.error('Error fetching data:', error)
       })
   }, [])
   return (
     <div>
-      {/* Display fetched data */}
       {data.map(item => (
         <p key={item.id}>{item.email}</p>
       ))}
