@@ -57,6 +57,7 @@ export default function PersistentDrawer({ user }) {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
 
+  console.log(user)
   const handleMenu = event => {
     setAnchorEl(event.currentTarget)
   }
@@ -108,7 +109,9 @@ export default function PersistentDrawer({ user }) {
           </div>
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Typography style={{ marginRight: '10px' }}>{user.id} Admin</Typography>
+              <Typography style={{ marginRight: '10px' }}>
+                {user.firstName} {user.lastName}
+              </Typography>
               <IconButton
                 size='large'
                 aria-label='account of current user'
@@ -167,7 +170,7 @@ export default function PersistentDrawer({ user }) {
         <List>
           {[
             { text: 'Dashboard', link: '/dashboard' },
-            { text: 'Review', link: '/review' },
+            { text: 'Requests', link: '/requests' },
             { text: 'Events', link: '/events' },
             { text: 'Users', link: '/users' },
           ].map((item, index) => (

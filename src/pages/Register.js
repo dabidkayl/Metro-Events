@@ -8,6 +8,8 @@ export default function Register() {
   const [values, setValues] = useState({
     email: '',
     password: '',
+    firstName: '',
+    lastName: '',
   })
   const navigate = useNavigate()
   const [errors, setErrors] = useState({})
@@ -16,10 +18,11 @@ export default function Register() {
     e.preventDefault()
     const err = validation(values)
     setErrors(err)
-    if (err.email === '' && err.password === '') {
+    if (err.email === '' && err.password === '' && err.firstName === '' && err.lastName === '') {
       axios
         .post('http://localhost:8080/register', values)
         .then(res => {
+          alert('Successfully Registered')
           navigate('/login')
         })
         .catch(err => console.log(err))
@@ -76,6 +79,46 @@ export default function Register() {
           <br />
 
           <form action='' onSubmit={handleSubmit}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+              <Typography style={{ marginRight: '10px', fontSize: '15px' }}>First Name</Typography>
+              {errors.firstName && (
+                <span style={{ fontSize: '12px', color: 'red' }}>{errors.firstName}</span>
+              )}
+            </div>
+            <input
+              name='firstName'
+              onChange={handleInput}
+              style={{
+                width: '350px',
+                height: '30px',
+                borderRadius: '10px',
+                border: 'solid 2px #F2EC9B',
+                padding: '5px',
+              }}
+              type='text'
+            />
+            <br />
+            <br />
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+              <Typography style={{ marginRight: '10px', fontSize: '15px' }}>Last Name</Typography>
+              {errors.lastName && (
+                <span style={{ fontSize: '12px', color: 'red' }}>{errors.lastName}</span>
+              )}
+            </div>
+            <input
+              name='lastName'
+              onChange={handleInput}
+              style={{
+                width: '350px',
+                height: '30px',
+                borderRadius: '10px',
+                border: 'solid 2px #F2EC9B',
+                padding: '5px',
+              }}
+              type='text'
+            />
+            <br />
+            <br />
             <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
               <Typography style={{ marginRight: '10px', fontSize: '15px' }}>Email</Typography>
               {errors.email && (

@@ -21,9 +21,23 @@ function validation(values) {
     } else {
       errors.password = ''
     }
+
+    if (values.firstName === '') {
+      errors.firstName = 'Please enter your name.'
+    } else {
+      errors.firstName = ''
+    }
+
+    if (values.firstName === '') {
+      errors.lastName = 'Please enter your surname.'
+    } else {
+      errors.lastName = ''
+    }
   } else {
     errors.email = ''
     errors.password = ''
+    errors.firstName = ''
+    errors.lastName = ''
   }
 
   return errors
