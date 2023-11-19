@@ -5,7 +5,7 @@ import Login from './pages/Login'
 import Home from './pages/Home'
 import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
-import Review from './pages/Review'
+import Requests from './pages/Requests'
 import Register from './pages/Register'
 import User from './pages/User'
 import { UserProvider } from './components/UserProvider'
@@ -30,7 +30,7 @@ function App() {
                   <Routes>
                     <Route index element={<Home />} />
                     <Route path='/dashboard' element={<Dashboard />} />
-                    <Route path='/review' element={<Review />} />
+                    <Route path='/requests' element={<Requests />} />
                     <Route path='/users' element={<User />} />
                     <Route path='/home' element={<Home />} />
                   </Routes>

@@ -1,7 +1,26 @@
 import { Button } from '@mui/material'
-import React from 'react'
+import React, { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { UserContext } from '../components/UserProvider'
+import axios from 'axios'
 
 export default function Home() {
+  const navigate = useNavigate()
+  const { user } = useContext(UserContext)
+
+  const handleRequestNow = () => {
+    axios
+      .post('http://localhost:8080/request', { id: user.id })
+      .then(response => {
+        if (response.data.success) {
+          alert(response.data.message)
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error)
+      })
+  }
+
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 65px)' }}>
       <div
@@ -14,10 +33,30 @@ export default function Home() {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <h1>Organize an event! Be an Organizer.</h1>
-          <Button variant='contained' style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}>
-            Request now
-          </Button>
+          <div
+            style={{
+              border: '0px solid black',
+              padding: '10px',
+              height: '300px',
+              width: '500px',
+              borderRadius: '30px',
+              background: 'linear-gradient(to left, #E2E2E2, #C9D6FF)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '8px 8px 25px rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            <h1>Organize an event! Be an Organizer.</h1>
+            <Button
+              onClick={handleRequestNow}
+              variant='contained'
+              style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}
+            >
+              Request now
+            </Button>
+          </div>
         </div>
       </div>
       <div
@@ -30,10 +69,30 @@ export default function Home() {
         }}
       >
         <div style={{ textAlign: 'center' }}>
-          <h1>Join an Event</h1>
-          <Button variant='contained' style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}>
-            Join now
-          </Button>
+          <div
+            alt='background'
+            style={{
+              border: '0px solid black',
+              padding: '10px',
+              height: '300px',
+              width: '500px',
+              borderRadius: '30px',
+              background: 'linear-gradient(to right, #E2E2E2, #C9D6FF)',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '8px 8px 25px rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            <h1>Join an Event</h1>
+            <Button
+              variant='contained'
+              style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}
+            >
+              Join now
+            </Button>
+          </div>
         </div>
       </div>
     </div>

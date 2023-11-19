@@ -4,10 +4,11 @@ import bg from '../assets/images/bg.jpg'
 import axios from 'axios'
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 50 },
-  { field: 'email', headerName: 'Email', width: 200 },
-  { field: 'password', headerName: 'Password', width: 300 },
-  { field: 'type', headerName: 'Type', width: 200 },
+  { field: 'userID', headerName: 'ID', flex: 1 },
+  { field: 'fullName', headerName: 'Name', flex: 2 },
+  { field: 'email', headerName: 'Email', flex: 2 },
+  { field: 'password', headerName: 'Password', flex: 2 },
+  { field: 'user_type', headerName: 'Role', flex: 1 },
 ]
 
 export default function User() {
@@ -17,8 +18,14 @@ export default function User() {
     axios
       .get('http://localhost:8080/users')
       .then(response => {
-        setRows(response.data)
-        console.log(response.data)
+        const rowsWithIds = response.data.map((row, index) => ({
+          ...row,
+          id: index + 1,
+          fullName: `${row.first_name.charAt(0).toUpperCase()}${row.first_name.slice(
+            1,
+          )} ${row.last_name.charAt(0).toUpperCase()}${row.last_name.slice(1)}`,
+        }))
+        setRows(rowsWithIds)
       })
       .catch(error => {
         console.error('Error fetching data:', error)
