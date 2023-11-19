@@ -1,26 +1,31 @@
 function validation(values) {
-  let error = {}
+  let errors = {}
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   // const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-z0-9]{8,}$/
   const password_pattern = /^.{8,}$/
 
-  if (values.email === '') {
-    error.email = 'Please provide an email.'
-  } else if (!email_pattern.test(values.email)) {
-    error.email = 'Invalid email format '
+  // eslint-disable-next-line
+  if (values.email != 'admin' && values.password != 'admin') {
+    if (values.email === '') {
+      errors.email = 'Please provide an email.'
+    } else if (!email_pattern.test(values.email)) {
+      errors.email = 'Invalid email format.'
+    } else {
+      errors.email = ''
+    }
+
+    if (values.password === '') {
+      errors.password = 'Please provide a password.'
+    } else if (!password_pattern.test(values.password)) {
+      errors.password = 'Password should be at least 8 characters.'
+    } else {
+      errors.password = ''
+    }
   } else {
-    error.email = ''
+    errors.email = ''
+    errors.password = ''
   }
 
-  if (values.password === '') {
-    error.password = 'Please provide a password.'
-  } else if (!password_pattern.test(values.password)) {
-    error.password = 'Password should be at least 8 characters.'
-  } else {
-    error.password = ''
-  }
-
-  return error
+  return errors
 }
-
 export default validation

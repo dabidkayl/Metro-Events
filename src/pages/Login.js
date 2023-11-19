@@ -1,8 +1,9 @@
 import { Button, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import bg from '../assets/images/bg.jpg'
 import validation from './LoginValidation'
+import { UserContext } from '../components/UserProvider'
 import axios from 'axios'
 export default function Login() {
   const [values, setValues] = useState({
@@ -11,6 +12,7 @@ export default function Login() {
   })
   const navigate = useNavigate()
   const [errors, setErrors] = useState({})
+  const { setUser } = useContext(UserContext)
 
   const handleInput = e => {
     setValues(prev => ({ ...prev, [e.target.name]: [e.target.value] }))
@@ -20,12 +22,16 @@ export default function Login() {
     e.preventDefault()
     const err = validation(values)
     setErrors(err)
+
+    const email = values.email[0]
+    const password = values.password[0]
+
     if (err.email === '' && err.password === '') {
       axios
-        .post('http://localhost:8080/login', values)
+        .post('http://localhost:8080/login', { email, password })
         .then(res => {
-          console.log(res.data)
-          if (res.data === 'Success') {
+          if (res.data.success) {
+            setUser(res.data.data)
             navigate('/home')
           } else {
             setErrors(prevErrors => ({

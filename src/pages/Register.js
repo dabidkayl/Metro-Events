@@ -90,7 +90,7 @@ export default function Register() {
                 height: '30px',
                 borderRadius: '10px',
                 border: 'solid 2px #F2EC9B',
-                padding: 'px',
+                padding: '5px',
               }}
               type='text'
             />

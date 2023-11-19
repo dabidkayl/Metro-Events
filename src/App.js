@@ -7,7 +7,8 @@ import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Review from './pages/Review'
 import Register from './pages/Register'
-
+import User from './pages/User'
+import { UserProvider } from './components/UserProvider'
 const theme = createTheme({
   typography: {
     fontFamily: 'Nunito Sans, sans-serif',
@@ -17,24 +18,28 @@ const theme = createTheme({
 function App() {
   return (
     <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <Routes>
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route
-            path='/*'
-            element={
-              <Layout>
-                <Routes>
-                  <Route index element={<Home />} />
-                  <Route path='/dashboard' element={<Dashboard />} />
-                  <Route path='/review' element={<Review />} />
-                </Routes>
-              </Layout>
-            }
-          />
-        </Routes>
-      </ThemeProvider>
+      <UserProvider>
+        <ThemeProvider theme={theme}>
+          <Routes>
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route
+              path='/*'
+              element={
+                <Layout>
+                  <Routes>
+                    <Route index element={<Home />} />
+                    <Route path='/dashboard' element={<Dashboard />} />
+                    <Route path='/review' element={<Review />} />
+                    <Route path='/users' element={<User />} />
+                    <Route path='/home' element={<Home />} />
+                  </Routes>
+                </Layout>
+              }
+            />
+          </Routes>
+        </ThemeProvider>
+      </UserProvider>
     </BrowserRouter>
   )
 }
