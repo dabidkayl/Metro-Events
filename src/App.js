@@ -7,6 +7,7 @@ import Layout from './components/Layout'
 import Dashboard from './pages/Dashboard'
 import Requests from './pages/Requests'
 import Register from './pages/Register'
+import Events from './pages/Events'
 import User from './pages/User'
 import { UserProvider } from './components/UserProvider'
 const theme = createTheme({
@@ -33,6 +34,7 @@ function App() {
                     <Route path='/requests' element={<Requests />} />
                     <Route path='/users' element={<User />} />
                     <Route path='/home' element={<Home />} />
+                    <Route path='/events' element={<Events />} />
                   </Routes>
                 </Layout>
               }
