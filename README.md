@@ -19,17 +19,26 @@
 
 4. After Editing Files:
 
-           git add .
 
+   For pushing all files use:
+
+           git add .
+   
+   For pushing specific file use:
+
+           git add <path of file>
+   
+   Commit and add description:
+   
            git commit -m "Describe the changes made in this commit"
 
            git push origin your-name
    
-5. Go to Github and create new pull request
+6. Go to Github and create new pull request
 
-6. Open your GitHub repository in a web browser.
+7. Open your GitHub repository in a web browser.
 
            https://github.com/dabidkayl/Metro-Events/
    
-7. GitHub will typically prompt you to create a pull request if you've pushed a new branch.
-8. Write a clear title and description for your pull request.
+8. GitHub will typically prompt you to create a pull request if you've pushed a new branch.
+9. Write a clear title and description for your pull request.
