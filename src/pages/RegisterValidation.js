@@ -6,6 +6,18 @@ function validation(values) {
 
   // eslint-disable-next-line
   if (values.email != 'admin' && values.password != 'admin') {
+    if (values.firstName === '') {
+      errors.firstName = 'Please enter your name.'
+    } else {
+      errors.firstName = ''
+    }
+
+    if (values.lastName === '') {
+      errors.lastName = 'Please enter your surname.'
+    } else {
+      errors.lastName = ''
+    }
+
     if (values.email === '') {
       errors.email = 'Please provide an email.'
     } else if (!email_pattern.test(values.email)) {
@@ -20,18 +32,6 @@ function validation(values) {
       errors.password = 'Password should be at least 8 characters.'
     } else {
       errors.password = ''
-    }
-
-    if (values.firstName === '') {
-      errors.firstName = 'Please enter your name.'
-    } else {
-      errors.firstName = ''
-    }
-
-    if (values.firstName === '') {
-      errors.lastName = 'Please enter your surname.'
-    } else {
-      errors.lastName = ''
     }
   } else {
     errors.email = ''

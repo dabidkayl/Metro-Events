@@ -1,19 +1,20 @@
 import { Button } from '@mui/material'
 import React, { useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { UserContext } from '../components/UserProvider'
 import axios from 'axios'
 
 export default function Home() {
-  const navigate = useNavigate()
   const { user } = useContext(UserContext)
 
   const handleRequestNow = () => {
     axios
-      .post('http://localhost:8080/request', { id: user.id })
+      .post('http://localhost:8080/request', { userID: user.id })
       .then(response => {
         if (response.data.success) {
           alert(response.data.message)
+        } else {
+          alert('You have already requested.')
         }
       })
       .catch(error => {
@@ -87,6 +88,8 @@ export default function Home() {
           >
             <h1>Join an Event</h1>
             <Button
+              component={Link}
+              to='/events'
               variant='contained'
               style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}
             >

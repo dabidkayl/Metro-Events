@@ -31,7 +31,6 @@ export default function Login() {
         .post('http://localhost:8080/login', { email, password })
         .then(res => {
           if (res.data.success) {
-            console.log(res.data.data)
             setUser(res.data.data)
             navigate('/home')
           } else {
