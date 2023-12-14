@@ -4,8 +4,9 @@ import bg from '../assets/images/bg.jpg'
 import axios from 'axios'
 import { Button } from '@mui/material'
 
-export default function User() {
+export default function Requests() {
   const [rows, setRows] = useState([])
+  const [userID, setUserID] = useState('')
 
   const columns = [
     { field: 'requestID', headerName: 'ID', flex: 1 },
@@ -13,46 +14,81 @@ export default function User() {
     { field: 'status', headerName: 'Status', flex: 1 },
     { field: 'formattedDate', headerName: 'Date Requested', flex: 2 },
     {
-      field: 'actions',
+      field: 'Actions',
       headerName: 'Actions',
-      flex: 3,
+      flex: 2,
+      sortable: false,
+      filterable: false,
+      disableColumnMenu: true,
       renderCell: params => (
-        <div>
-          <Button
-            variant='contained'
-            style={{ marginRight: '8px', backgroundColor: '#4CAF50', width: '130px' }}
-            onClick={() => handleButtonClick(params.row)}
-          >
-            Approve
-          </Button>
-          <Button
-            variant='contained'
-            style={{ backgroundColor: '#FF0000', width: '130px' }}
-            onClick={() => handleAnotherButtonClick(params.row)}
-          >
-            Decline
-          </Button>
+        <div onClick={e => e.stopPropagation()}>
+          <CustomActions row={params.row} />
         </div>
       ),
     },
   ]
 
-  // Function to handle button click
   const handleButtonClick = row => {
-    // Logic for the first button click
-    console.log('Button 1 clicked for row:', row)
+    axios
+      .post('http://localhost:8080/request/action', {
+        requestID: row.requestID,
+        action: 'Approve',
+        userID: userID,
+      })
+      .then(res => {
+        if (res.data.success) {
+          alert('Approved')
+        }
+      })
+      .catch(err => console.log(err))
   }
 
   const handleAnotherButtonClick = row => {
-    // Logic for the second button click
-    console.log('Button 2 clicked for row:', row)
+    axios
+      .post('http://localhost:8080/request/action', {
+        requestID: row.requestID,
+        action: 'Decline',
+        userID: userID,
+      })
+      .then(res => {
+        if (res.data.success) {
+          alert('Declined')
+        }
+      })
+      .catch(err => console.log(err))
   }
+
+  const CustomActions = ({ row }) => (
+    <div>
+      <Button
+        variant='contained'
+        style={{ marginRight: '8px', backgroundColor: '#4CAF50', width: '130px' }}
+        onClick={event => {
+          event.stopPropagation() // Prevent row selection
+          handleButtonClick(row)
+        }}
+      >
+        Approve
+      </Button>
+      <Button
+        variant='contained'
+        style={{ backgroundColor: '#FF0000', width: '130px' }}
+        onClick={event => {
+          event.stopPropagation() // Prevent row selection
+          handleAnotherButtonClick(row)
+        }}
+      >
+        Decline
+      </Button>
+    </div>
+  )
 
   useEffect(() => {
     axios
       .get('http://localhost:8080/requests')
       .then(response => {
         const updatedRows = response.data.map((row, index) => {
+          setUserID(row.userID)
           const date = new Date(row.requestDate)
           const options = { year: 'numeric', month: 'long', day: 'numeric' }
           const formattedDate = date.toLocaleDateString(undefined, options)
@@ -95,8 +131,14 @@ export default function User() {
           columns={columns}
           pagination
           pageSize={5}
-          // checkboxSelection
+          checkboxSelection
           style={{ width: '100%', height: '100%' }}
+          onCellClick={params => {
+            // Prevent row selection on button click
+            if (params.field === 'customActions' && params.event) {
+              params.event.stopPropagation()
+            }
+          }}
         />
       </div>
     </div>

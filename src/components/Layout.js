@@ -4,7 +4,6 @@ import { UserContext } from '../components/UserProvider'
 
 const Layout = ({ children }) => {
   const { user } = useContext(UserContext)
-  console.log(user)
   return (
     <div>
       <Drawer user={user} />

@@ -57,7 +57,6 @@ export default function PersistentDrawer({ user }) {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
 
-  console.log(user)
   const handleMenu = event => {
     setAnchorEl(event.currentTarget)
   }
@@ -89,7 +88,30 @@ export default function PersistentDrawer({ user }) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography
+            <Link
+              to='/home'
+              style={{
+                textDecoration: 'none',
+                color: 'white',
+                flexGrow: 1,
+                textAlign: 'center',
+                cursor: 'pointer',
+              }}
+            >
+              <Typography variant='h4' noWrap component='div'>
+                <span style={{ fontWeight: 'bold', letterSpacing: '-3px' }}>METRO</span>{' '}
+                <span
+                  style={{
+                    fontWeight: 200,
+                    fontFamily: 'Nunito Sans, sans-serif',
+                    letterSpacing: '5px',
+                  }}
+                >
+                  GALA
+                </span>
+              </Typography>
+            </Link>
+            {/* <Typography
               variant='h4'
               noWrap
               component='div'
@@ -105,7 +127,7 @@ export default function PersistentDrawer({ user }) {
               >
                 GALA
               </span>
-            </Typography>
+            </Typography> */}
           </div>
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
