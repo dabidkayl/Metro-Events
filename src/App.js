@@ -9,9 +9,11 @@ import Requests from './pages/Requests'
 import Register from './pages/Register'
 import Events from './pages/Events'
 import User from './pages/User'
+import CreateEvent from './pages/CreateEvent'
 import EventDetails from './components/EventDetails'
 import { UserProvider } from './components/UserProvider'
 import { EventProvider } from './components/EventProvider'
+
 const theme = createTheme({
   typography: {
     fontFamily: 'Nunito Sans, sans-serif',
@@ -38,7 +40,9 @@ function App() {
                       <Route path='/requests' element={<Requests />} />
                       <Route path='/users' element={<User />} />
                       <Route path='/home' element={<Home />} />
+
                       <Route path='/events' element={<Events />} />
+                      <Route path='/createEvent' element={<CreateEvent />} />
                       <Route path='/events/:eventID' element={<EventDetails />} />
                     </Routes>
                   </Layout>
