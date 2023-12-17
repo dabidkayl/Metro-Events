@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../components/UserProvider'
 import axios from 'axios'
+import requestbg from '../assets/images/requestbg.jpg';
+import joinbg from '../assets/images/joinbg.jpg';
 
 export default function Home() {
   const { user } = useContext(UserContext)
@@ -24,6 +26,7 @@ export default function Home() {
 
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 65px)' }}>
+      {/* request */}
       <div
         style={{
           flex: '1',
@@ -42,6 +45,8 @@ export default function Home() {
               width: '500px',
               borderRadius: '30px',
               background: 'linear-gradient(to left, #E2E2E2, #C9D6FF)',
+              backgroundImage: `url(${requestbg})`,
+              backgroundSize: 'cover',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -49,17 +54,19 @@ export default function Home() {
               boxShadow: '8px 8px 25px rgba(0, 0, 0, 0.5)',
             }}
           >
-            <h1>Organize an event! Be an Organizer.</h1>
+            <h1 style={{color: 'white'}}>Organize an event! <br></br> Be an Organizer.</h1>
             <Button
               onClick={handleRequestNow}
               variant='contained'
-              style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}
+              style={{ color: '#F2AE2E', backgroundColor: 'white', borderRadius: '10px' }}
             >
               Request now
             </Button>
           </div>
         </div>
       </div>
+
+      {/* join event */}
       <div
         style={{
           flex: '1',
@@ -67,6 +74,7 @@ export default function Home() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
+          marginLeft: -95
         }}
       >
         <div style={{ textAlign: 'center' }}>
@@ -79,6 +87,8 @@ export default function Home() {
               width: '500px',
               borderRadius: '30px',
               background: 'linear-gradient(to right, #E2E2E2, #C9D6FF)',
+              backgroundImage: `url(${joinbg})`,
+              backgroundSize: 'cover',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
@@ -86,12 +96,12 @@ export default function Home() {
               boxShadow: '8px 8px 25px rgba(0, 0, 0, 0.5)',
             }}
           >
-            <h1>Join an Event</h1>
+            <h1 style={{color: 'white'}}>Join an Event! <br></br> Be a participant.</h1>
             <Button
               component={Link}
               to='/events'
               variant='contained'
-              style={{ backgroundColor: '#F2AE2E', borderRadius: '10px' }}
+              style={{ color: '#F2AE2E', backgroundColor: 'white', borderRadius: '10px' }}
             >
               Join now
             </Button>
