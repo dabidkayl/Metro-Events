@@ -38,7 +38,8 @@ export default function CreateEvent() {
   }
 
   return (
-    <div style={{ display: 'flex', height: 'calc(100vh - 65px)' }}>
+    <div style={{ display: 'flex', height: 'calc(100vh - 65px)'}}>
+      {/* bg */}
       <div style={{ flex: 'none', width: '250px', position: 'relative', height: '100%' }}>
         <img
           src={bg}
@@ -53,15 +54,20 @@ export default function CreateEvent() {
           }}
         />
       </div>
+      
+      {/* form */}
       <div
+
         style={{
           flex: '1',
-          overflow: 'auto',
-          height: '100%',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          marginTop: 1,
+          marginLeft: 35,
+          marginRight: 'auto'
         }}
+
       >
         <form action='' onSubmit={handleSubmit}>
           <div
@@ -75,63 +81,84 @@ export default function CreateEvent() {
               boxShadow: '0px 0px 30px rgba(0, 0, 0, 0.1)',
             }}
           >
-            <div style={{ textAlign: 'center' }}>
-              <h2>CREATE EVENT</h2>
+            {/* create event */}
+            <div style={{ textAlign: 'center' , marginTop: -20 }}>
+              <h2 style={{color: '#F2AE2E', marginBottom: -10}}>CREATE EVENT</h2>
             </div>
 
+            {/* event name */}
             <div style={{ display: 'flex', gap: '20px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <Typography style={{ marginRight: '10px' }}>Event</Typography>
-                <TextField onChange={handleInput} name='event' variant='outlined' />
+                <TextField 
+                  onChange={handleInput} 
+                  name='event' 
+                  label='Event Name'
+                  variant='outlined' 
+                  />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography style={{ marginRight: '10px' }}>Organizer</Typography>
-                <TextField onChange={handleInput} name='organizer' variant='outlined' disabled />
+
+            {/* organizer */}
+            <div style={{ display: 'inline-block', flexDirection: 'column' }}>
+                <TextField 
+                  onChange={handleInput} 
+                  name='organizer' 
+                  label='Organizer'
+                  variant='outlined' 
+                  disabled 
+                  />
               </div>
             </div>
+
+            {/* description */}
             <div>
-              <Typography style={{ marginRight: '10px' }}>Description</Typography>
-              <TextField
+              <TextField 
                 onChange={handleInput}
                 name='description'
+                label='Description'
                 variant='outlined'
                 multiline
                 rows={3}
                 style={{ width: '600px' }}
               />
             </div>
+
+            {/* location */}
             <div>
-              <Typography style={{ marginRight: '10px' }}>Location</Typography>
               <TextField
                 onChange={handleInput}
                 name='location'
+                label='Location'
                 variant='outlined'
                 style={{ width: '600px' }}
               />
             </div>
 
+            {/* event type */}
             <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography style={{ marginRight: '10px' }}>Event Type</Typography>
                 <TextField
                   onChange={handleInput}
                   name='type'
+                  label='Event Type'
                   variant='outlined'
                   style={{ width: '320px', marginTop: '8px' }}
                 />
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
-                <Typography style={{ marginRight: '10px' }}>Date</Typography>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoContainer components={['DatePicker']}>
-                    <DatePicker
-                      style={{ width: '100%' }}
-                      onChange={date => handleDateChange(date)}
-                    />
+
+            {/* date */}
+            <div style={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                  <DatePicker
+                    style={{ width: '100%' }}
+                    onChange={date => handleDateChange(date)}
+                />
                   </DemoContainer>
                 </LocalizationProvider>
               </div>
             </div>
+
+            {/* upload image */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography style={{ marginRight: '10px' }}>Upload Image</Typography>
               <Input
@@ -139,22 +166,38 @@ export default function CreateEvent() {
                 name='image'
                 type='file'
                 accept='image/*'
-                sx={{
-                  marginRight: '10px',
-                }}
               />
             </div>
 
+            {/* submit button */}
             <Button
               type='submit'
               variant='contained'
               onClick={handleSubmit}
               style={{ backgroundColor: '#F2AE2E' }}
             >
-              Set Up Event
+              Set-Up Event
             </Button>
           </div>
         </form>
+      </div>
+
+      {/* mirror bg */}
+      <div style={{ flex: 'none', width: '250px', position: 'relative', height: '100%'}}>
+        <img
+          src={bg}
+          alt='background'
+          style={{
+            width: '88%',
+            height: '100%',
+            objectFit: 'cover',
+            position: 'absolute',  // Change position to 'absolute'
+            top: '0',
+            left: 'auto',  // Remove left property
+            right: '0',  // Add right property and set it to '0'
+            transform: 'scaleX(-1)'
+          }}
+        />
       </div>
     </div>
   )
