@@ -1,9 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { Grid } from '@mui/material'
-// import basketball from '../assets/images/basketball.jpg'
-// import cycling from '../assets/images/cycling.jpg'
-// import yoga from '../assets/images/yoga.jpg'
-// import meeting from '../assets/images/meeting.jpg'
 import bg from '../assets/images/bg.jpg'
 import EventCard from '../components/EventCard'
 import axios from 'axios'
@@ -16,20 +12,24 @@ export default function Events() {
 
   const handleEventClick = event => {
     console.log(event)
-    setSelectedEvent(event) // Set the clicked event in the context
+    setSelectedEvent(event)
   }
 
   useEffect(() => {
     axios
       .get('http://localhost:8080/events')
       .then(response => {
-        console.log(response.data)
-        setEvents(response.data)
+        const eventsWithImageUrls = response.data.map(event => ({
+          ...event,
+          imageUrl: `http://localhost:8080/images/${event.image}`,
+        }))
+        setEvents(eventsWithImageUrls)
       })
       .catch(error => {
         console.error('Error fetching data:', error)
       })
   }, [])
+
   return (
     <div style={{ display: 'flex', height: 'calc(100vh - 65px)' }}>
       <div style={{ flex: 'none', width: '250px', position: 'relative', height: '100%' }}>
@@ -47,7 +47,7 @@ export default function Events() {
         />
       </div>
       <div style={{ flex: '1', width: 'calc(100% - 250px)', overflow: 'auto', height: '100%' }}>
-        <div style={{ marginLeft: '95px', marginTop: '50px' }}>
+        <div style={{ marginLeft: '95px', marginTop: '20px' }}>
           <Grid container spacing={2}>
             {events.map(event => (
               <Link
@@ -60,6 +60,7 @@ export default function Events() {
                   key={event.eventID}
                   title={event.eventName}
                   description={event.eventDescription}
+                  image={event.imageUrl} // Use the updated imageUrl here
                 />
               </Link>
             ))}

@@ -15,12 +15,11 @@ export default function CreateEvent() {
     location: '',
     type: '',
     date: '',
-    image: '',
+    image: null,
   })
 
   const handleInput = e => {
     setValues(prev => ({ ...prev, [e.target.name]: [e.target.value] }))
-    console.log(values)
   }
 
   const handleDateChange = date => {
@@ -28,9 +27,24 @@ export default function CreateEvent() {
   }
 
   const handleSubmit = e => {
+    console.log(values)
     e.preventDefault()
+
+    const formData = new FormData()
+    formData.append('event', values.event)
+    formData.append('organizer', values.organizer)
+    formData.append('description', values.description)
+    formData.append('location', values.location)
+    formData.append('type', values.type)
+    formData.append('date', values.date)
+    formData.append('image', values.image)
+
     axios
-      .post('http://localhost:8080/create-events', values)
+      .post('http://localhost:8080/create-events', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       .then(res => {
         alert('Successfully set up an event')
       })
@@ -86,7 +100,7 @@ export default function CreateEvent() {
               </div>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography style={{ marginRight: '10px' }}>Organizer</Typography>
-                <TextField onChange={handleInput} name='organizer' variant='outlined' disabled />
+                <TextField onChange={handleInput} name='organizer' variant='outlined' />
               </div>
             </div>
             <div>
@@ -135,7 +149,7 @@ export default function CreateEvent() {
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
               <Typography style={{ marginRight: '10px' }}>Upload Image</Typography>
               <Input
-                onChange={handleInput}
+                onChange={e => setValues({ ...values, image: e.target.files[0] })}
                 name='image'
                 type='file'
                 accept='image/*'
