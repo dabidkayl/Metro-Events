@@ -6,14 +6,10 @@ import CardMedia from '@mui/material/CardMedia'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 
-export default function EventCard({ title, description }) {
+export default function EventCard({ title, description, image }) {
   return (
     <Card sx={{ maxWidth: 345, margin: 2 }}>
-      <CardMedia
-        sx={{ height: '100px' }}
-        // image="/static/images/cards/contemplative-reptile.jpg"
-        title='green iguana'
-      />
+      <CardMedia sx={{ height: '100px' }} image={image} />
       <CardContent>
         <Typography gutterBottom variant='h5' component='div'>
           {title}
