@@ -62,7 +62,7 @@ export default function Requests() {
     <div>
       <Button
         variant='contained'
-        style={{ marginRight: '8px', backgroundColor: '#4CAF50', width: '130px' }}
+        style={{ marginRight: '8px', backgroundColor: '#4CAF50', width: '110px', marginLeft: -9}}
         onClick={event => {
           event.stopPropagation() // Prevent row selection
           handleButtonClick(row)
@@ -72,7 +72,7 @@ export default function Requests() {
       </Button>
       <Button
         variant='contained'
-        style={{ backgroundColor: '#FF0000', width: '130px' }}
+        style={{ backgroundColor: '#FF0000', width: '110px' }}
         onClick={event => {
           event.stopPropagation() // Prevent row selection
           handleAnotherButtonClick(row)

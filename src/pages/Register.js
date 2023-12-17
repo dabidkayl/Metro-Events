@@ -69,7 +69,7 @@ export default function Register() {
                 fontWeight: 200,
                 fontFamily: 'Nunito Sans, sans-serif',
                 letterSpacing: '5px',
-                color: '#706D6D',
+                color: '#F2AE2E',
               }}
             >
               GALA
@@ -172,8 +172,9 @@ export default function Register() {
                 </Link>
               </span>
             </div>
+
             <br />
-            <br />
+
             <div style={{ textAlign: 'center' }}>
               <Button
                 type='submit'
