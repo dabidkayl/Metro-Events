@@ -60,7 +60,7 @@ export default function Events() {
                   key={event.eventID}
                   title={event.eventName}
                   description={event.eventDescription}
-                  image={event.imageUrl} // Use the updated imageUrl here
+                  image={event.imageUrl}
                 />
               </Link>
             ))}

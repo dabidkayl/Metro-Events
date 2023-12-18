@@ -28,58 +28,54 @@ export default function Requests() {
     },
   ]
 
-  const handleButtonClick = row => {
-    axios
-      .post('http://localhost:8080/request/action', {
-        requestID: row.requestID,
-        action: 'Approve',
-        userID: userID,
-      })
-      .then(res => {
-        if (res.data.success) {
-          alert('Approved')
-        }
-      })
-      .catch(err => console.log(err))
-  }
-
-  const handleAnotherButtonClick = row => {
-    axios
-      .post('http://localhost:8080/request/action', {
-        requestID: row.requestID,
-        action: 'Decline',
-        userID: userID,
-      })
-      .then(res => {
-        if (res.data.success) {
-          alert('Declined')
-        }
-      })
-      .catch(err => console.log(err))
+  const handleButtonClick = (row, action) => {
+    if (row.status !== 'Approved' && row.status !== 'Declined') {
+      axios
+        .post('http://localhost:8080/request/action', {
+          requestID: row.requestID,
+          action: action === 'Approve' ? 'Approve' : 'Decline',
+          userID: userID,
+        })
+        .then(res => {
+          if (res.data.success) {
+            const updatedRows = rows.map(r => {
+              if (r.requestID === row.requestID) {
+                return { ...r, status: action === 'Approve' ? 'Approved' : 'Declined' }
+              }
+              return r
+            })
+            setRows(updatedRows)
+          }
+        })
+        .catch(err => console.log(err))
+    }
   }
 
   const CustomActions = ({ row }) => (
     <div>
-      <Button
-        variant='contained'
-        style={{ marginRight: '8px', backgroundColor: '#4CAF50', width: '110px', marginLeft: -9}}
-        onClick={event => {
-          event.stopPropagation() // Prevent row selection
-          handleButtonClick(row)
-        }}
-      >
-        Approve
-      </Button>
-      <Button
-        variant='contained'
-        style={{ backgroundColor: '#FF0000', width: '110px' }}
-        onClick={event => {
-          event.stopPropagation() // Prevent row selection
-          handleAnotherButtonClick(row)
-        }}
-      >
-        Decline
-      </Button>
+      {row.status !== 'Approved' && row.status !== 'Declined' && (
+        <>
+          <Button
+            variant='contained'
+            style={{
+              marginRight: '8px',
+              backgroundColor: '#4CAF50',
+              width: '110px',
+              marginLeft: -9,
+            }}
+            onClick={() => handleButtonClick(row, 'Approve')}
+          >
+            Approve
+          </Button>
+          <Button
+            variant='contained'
+            style={{ backgroundColor: '#FF0000', width: '110px' }}
+            onClick={() => handleButtonClick(row, 'Decline')}
+          >
+            Decline
+          </Button>
+        </>
+      )}
     </div>
   )
 
@@ -133,12 +129,6 @@ export default function Requests() {
           pageSize={5}
           checkboxSelection
           style={{ width: '100%', height: '100%' }}
-          onCellClick={params => {
-            // Prevent row selection on button click
-            if (params.field === 'customActions' && params.event) {
-              params.event.stopPropagation()
-            }
-          }}
         />
       </div>
     </div>

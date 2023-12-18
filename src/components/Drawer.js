@@ -24,6 +24,8 @@ import MenuItem from '@mui/material/MenuItem'
 import Menu from '@mui/material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import { Link } from 'react-router-dom'
+import ViewList from '@mui/icons-material/ViewList'
+import Create from '@mui/icons-material/Create'
 
 const drawerWidth = 250
 
@@ -56,6 +58,33 @@ export default function PersistentDrawer({ user }) {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
+  const userTypes = {
+    organizer: [
+      { text: 'Organize Events', link: '/create-event', iconIndex: 0 },
+      { text: 'Your Events', link: '/your-events', iconIndex: 1 },
+    ],
+    user: [
+      { text: 'Events', link: '/events', iconIndex: 2 },
+      { text: 'Joined Events', link: '/joined-events', iconIndex: 3 },
+    ],
+    admin: [
+      { text: 'Requests', link: '/requests', iconIndex: 4 },
+      { text: 'Users', link: '/users', iconIndex: 5 },
+      { text: 'Events', link: '/list-events', iconIndex: 6 },
+    ],
+  }
+
+  const icons = [
+    <Create />,
+    <ContentPasteSearchIcon />,
+    <ViewList />,
+    <EventIcon />,
+    <SpaceDashboardIcon />,
+    <GroupIcon />,
+    <EventIcon />,
+  ]
+
+  const drawerItems = userTypes[user.type]
 
   const handleMenu = event => {
     setAnchorEl(event.currentTarget)
@@ -111,23 +140,6 @@ export default function PersistentDrawer({ user }) {
                 </span>
               </Typography>
             </Link>
-            {/* <Typography
-              variant='h4'
-              noWrap
-              component='div'
-              style={{ flexGrow: 1, textAlign: 'center' }}
-            >
-              <span style={{ fontWeight: 'bold', letterSpacing: '-3px' }}>METRO</span>{' '}
-              <span
-                style={{
-                  fontWeight: 200,
-                  fontFamily: 'Nunito Sans, sans-serif',
-                  letterSpacing: '5px',
-                }}
-              >
-                GALA
-              </span>
-            </Typography> */}
           </div>
           {user ? (
             <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -190,24 +202,11 @@ export default function PersistentDrawer({ user }) {
         </DrawerHeader>
         <Divider />
         <List>
-          {[
-            { text: 'Dashboard', link: '/dashboard' },
-            { text: 'Requests', link: '/requests' },
-            { text: 'Events', link: '/events' },
-            { text: 'Users', link: '/users' },
-          ].map((item, index) => (
+          {drawerItems.map(item => (
             <ListItem key={item.text} disablePadding>
               <ListItemButton component={Link} to={item.link}>
                 <ListItemIcon>
-                  {index === 0 ? (
-                    <SpaceDashboardIcon />
-                  ) : index === 1 ? (
-                    <ContentPasteSearchIcon />
-                  ) : index === 2 ? (
-                    <EventIcon />
-                  ) : (
-                    <GroupIcon />
-                  )}
+                  {icons[item.iconIndex]} {/* Use the icon based on iconIndex */}
                 </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>

@@ -18,9 +18,44 @@ import EventIcon from '@mui/icons-material/Event'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
+import { UserContext } from '../components/UserProvider'
+import axios from 'axios'
+
 export default function EventDetails() {
+  const { user } = useContext(UserContext)
   const { selectedEvent } = useContext(EventContext)
   const [openDialog, setOpenDialog] = useState(false)
+  const [values, setValues] = useState({
+    first_name: '',
+    last_name: '',
+    gender: '',
+    age: '',
+    address: '',
+    email: '',
+    event_id: selectedEvent.eventID,
+    user_id: user.id,
+  })
+
+  const handleInput = e => {
+    setValues(prev => ({ ...prev, [e.target.name]: [e.target.value] }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+
+    axios
+      .post('http://localhost:8080/join-event', values)
+      .then(res => {
+        console.log(res.data)
+        alert('Successfully joined the event')
+      })
+      .catch(err => {
+        console.error(err)
+        alert('Failed to join the event')
+      })
+
+    handleClose()
+  }
 
   const handleJoinClick = () => {
     setOpenDialog(true)
@@ -147,104 +182,119 @@ export default function EventDetails() {
           >
             Join Now
           </Button>
+          <form action='' onSubmit={handleSubmit}>
+            <Dialog open={openDialog} onClose={handleClose}>
+              <DialogTitle style={{ marginBottom: 10 }}>
+                {/* dialog registration */}
+                <h2 style={{ marginBottom: -20, color: '#F2AE2E' }}>Event Registration</h2>
 
-          <Dialog open={openDialog} onClose={handleClose}>
-            <DialogTitle style={{ marginBottom: 10 }}>
-              {/* dialog registration */}
-              <h2 style={{ marginBottom: -20, color: '#F2AE2E' }}>Event Registration</h2>
+                {/* dialog event name */}
+                <p style={{ fontSize: 17, marginBottom: -20 }}>
+                  <strong>Event Name: </strong>
+                  <span style={{ fontSize: 15 }}>{selectedEvent.eventName}</span>
+                </p>
 
-              {/* dialog event name */}
-              <p style={{ fontSize: 17, marginBottom: -20 }}>
-                <strong>Event Name: </strong>
-                <span style={{ fontSize: 15 }}>{selectedEvent.eventName}</span>
-              </p>
+                {/* dialog event location */}
+                <p style={{ fontSize: 17, marginBottom: -20 }}>
+                  <strong>Location: </strong>
+                  <span style={{ fontSize: 15 }}>{selectedEvent.eventLocation}</span>
+                </p>
 
-              {/* dialog event location */}
-              <p style={{ fontSize: 17, marginBottom: -20 }}>
-                <strong>Location: </strong>
-                <span style={{ fontSize: 15 }}>{selectedEvent.eventLocation}</span>
-              </p>
+                {/* dialog event date */}
+                <p style={{ fontSize: 17, marginBottom: -15 }}>
+                  <strong>Date: </strong>
+                  <span style={{ fontSize: 15 }}>{formattedDate2}</span> &nbsp;
+                  <strong>Time:</strong> <span style={{ fontSize: 15 }}>{formattedTime}</span>
+                </p>
+              </DialogTitle>
 
-              {/* dialog event date */}
-              <p style={{ fontSize: 17, marginBottom: -15 }}>
-                <strong>Date: </strong>
-                <span style={{ fontSize: 15 }}>{formattedDate2}</span> &nbsp;
-                <strong>Time:</strong> <span style={{ fontSize: 15 }}>{formattedTime}</span>
-              </p>
-            </DialogTitle>
-
-            <DialogContent>
-              <form style={{ margin: '10px', marginLeft: 0 }}>
-                {/* Name */}
-                <TextField
-                  label='First'
-                  variant='outlined'
-                  fullWidth
-                  sx={{ maxWidth: '267px', marginBottom: '10px' }}
-                />
-
-                <TextField
-                  label='Last'
-                  variant='outlined'
-                  fullWidth
-                  sx={{ maxWidth: '267px', marginBottom: '10px', marginLeft: 1 }}
-                />
-
-                {/* gender */}
-                <FormControl sx={{ width: '100px', marginBottom: '10px' }}>
-                  <InputLabel id='gender-label'>Gender</InputLabel>
-                  <Select
-                    labelId='gender-label'
-                    label='Gender'
+              <DialogContent>
+                <form style={{ margin: '10px', marginLeft: 0 }}>
+                  {/* Name */}
+                  <TextField
+                    onChange={handleInput}
+                    name='first_name'
+                    label='First'
                     variant='outlined'
                     fullWidth
-                    sx={{ width: '100%' }} // Adjust the width as needed
-                  >
-                    <MenuItem value='Male'>Male</MenuItem>
-                    <MenuItem value='Female'>Female</MenuItem>
-                    <MenuItem value='Other'>Other</MenuItem>
-                  </Select>
-                </FormControl>
+                    sx={{ maxWidth: '267px', marginBottom: '10px' }}
+                  />
 
-                {/* age */}
-                <TextField
-                  label='Age'
-                  variant='outlined'
-                  fullWidth
-                  sx={{ maxWidth: '160px', marginBottom: '10px', marginLeft: 1 }}
-                />
+                  <TextField
+                    onChange={handleInput}
+                    name='last_name'
+                    label='Last'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ maxWidth: '267px', marginBottom: '10px', marginLeft: 1 }}
+                  />
 
-                {/* address */}
-                <TextField
-                  label='Address'
-                  variant='outlined'
-                  fullWidth
-                  sx={{ maxWidth: '265px', marginBottom: '10px', marginLeft: 1 }}
-                />
+                  {/* gender */}
+                  <FormControl sx={{ width: '100px', marginBottom: '10px' }}>
+                    <InputLabel id='gender-label'>Gender</InputLabel>
+                    <Select
+                      value={values.gender}
+                      onChange={handleInput}
+                      name='gender'
+                      labelId='gender-label'
+                      label='Gender'
+                      variant='outlined'
+                      fullWidth
+                      sx={{ width: '100%' }}
+                    >
+                      <MenuItem value='Male'>Male</MenuItem>
+                      <MenuItem value='Female'>Female</MenuItem>
+                      <MenuItem value='Other'>Other</MenuItem>
+                    </Select>
+                  </FormControl>
 
-                {/* email */}
-                <TextField
-                  label='Email'
-                  variant='outlined'
-                  fullWidth
-                  sx={{ maxWidth: '400', marginBottom: '10px' }}
-                />
-              </form>
-            </DialogContent>
+                  {/* age */}
+                  <TextField
+                    onChange={handleInput}
+                    name='age'
+                    label='Age'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ maxWidth: '160px', marginBottom: '10px', marginLeft: 1 }}
+                  />
 
-            <DialogActions>
-              <Button onClick={handleClose} style={{ color: '#F2AE2E' }}>
-                Cancel
-              </Button>
-              <Button
-                variant='contained'
-                onClick={handleClose}
-                style={{ backgroundColor: '#F2AE2E', color: 'white' }}
-              >
-                Join
-              </Button>
-            </DialogActions>
-          </Dialog>
+                  {/* address */}
+                  <TextField
+                    onChange={handleInput}
+                    name='address'
+                    label='Address'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ maxWidth: '265px', marginBottom: '10px', marginLeft: 1 }}
+                  />
+
+                  {/* email */}
+                  <TextField
+                    onChange={handleInput}
+                    name='email'
+                    label='Email'
+                    variant='outlined'
+                    fullWidth
+                    sx={{ maxWidth: '400', marginBottom: '10px' }}
+                  />
+                </form>
+              </DialogContent>
+
+              <DialogActions>
+                <Button onClick={handleClose} style={{ color: '#F2AE2E' }}>
+                  Cancel
+                </Button>
+                <Button
+                  type='submit'
+                  variant='contained'
+                  onClick={handleSubmit}
+                  style={{ backgroundColor: '#F2AE2E', color: 'white' }}
+                >
+                  Join
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </form>
         </div>
       </div>
     </div>
