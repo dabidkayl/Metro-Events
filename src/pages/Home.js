@@ -3,8 +3,8 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from '../components/UserProvider'
 import axios from 'axios'
-import requestbg from '../assets/images/requestbg.jpg';
-import joinbg from '../assets/images/joinbg.jpg';
+import requestbg from '../assets/images/requestbg.jpg'
+import joinbg from '../assets/images/joinbg.jpg'
 
 export default function Home() {
   const { user } = useContext(UserContext)
@@ -54,7 +54,16 @@ export default function Home() {
               boxShadow: '8px 8px 25px rgba(0, 0, 0, 0.5)',
             }}
           >
-            <h1 style={{color: 'white'}}>Organize an event! <br></br> Be an Organizer.</h1>
+            <h1
+              style={{
+                color: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '15px',
+                padding: '10px',
+              }}
+            >
+              Organize an event! <br></br> Be an Organizer.
+            </h1>
             <Button
               onClick={handleRequestNow}
               variant='contained'
@@ -74,7 +83,7 @@ export default function Home() {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          marginLeft: -95
+          marginLeft: -95,
         }}
       >
         <div style={{ textAlign: 'center' }}>
@@ -96,7 +105,16 @@ export default function Home() {
               boxShadow: '8px 8px 25px rgba(0, 0, 0, 0.5)',
             }}
           >
-            <h1 style={{color: 'white'}}>Join an Event! <br></br> Be a participant.</h1>
+            <h1
+              style={{
+                color: 'white',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                borderRadius: '15px',
+                padding: '10px',
+              }}
+            >
+              Join an event! <br></br> Be an a participant.
+            </h1>
             <Button
               component={Link}
               to='/events'

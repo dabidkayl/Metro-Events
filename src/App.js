@@ -13,6 +13,9 @@ import CreateEvent from './pages/CreateEvent'
 import EventDetails from './components/EventDetails'
 import { UserProvider } from './components/UserProvider'
 import { EventProvider } from './components/EventProvider'
+import JoinedEvents from './pages/JoinedEvents'
+import YourEvents from './pages/YourEvents'
+import ListEvents from './pages/ListEvents'
 
 const theme = createTheme({
   typography: {
@@ -40,9 +43,11 @@ function App() {
                       <Route path='/requests' element={<Requests />} />
                       <Route path='/users' element={<User />} />
                       <Route path='/home' element={<Home />} />
-
                       <Route path='/events' element={<Events />} />
-                      <Route path='/createEvent' element={<CreateEvent />} />
+                      <Route path='/list-events' element={<ListEvents />} />
+                      <Route path='/joined-events' element={<JoinedEvents />} />
+                      <Route path='/your-events' element={<YourEvents />} />
+                      <Route path='/create-event' element={<CreateEvent />} />
                       <Route path='/events/:eventID' element={<EventDetails />} />
                     </Routes>
                   </Layout>
