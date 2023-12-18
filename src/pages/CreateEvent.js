@@ -181,24 +181,6 @@ export default function CreateEvent() {
           </div>
         </form>
       </div>
-
-      {/* mirror bg */}
-      <div style={{ flex: 'none', width: '250px', position: 'relative', height: '100%'}}>
-        <img
-          src={bg}
-          alt='background'
-          style={{
-            width: '88%',
-            height: '100%',
-            objectFit: 'cover',
-            position: 'absolute',
-            top: '0',
-            left: 'auto',
-            right: '0',
-            transform: 'scaleX(-1)'
-          }}
-        />
-      </div>
     </div>
   )
 }
