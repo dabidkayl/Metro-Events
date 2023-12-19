@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { TextField, Typography, Button, Input } from '@mui/material'
 import bg from '../assets/images/bg.jpg'
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
+import { UserContext } from '../components/UserProvider'
 import axios from 'axios'
 
 export default function CreateEvent() {
+  const { user } = useContext(UserContext)
   const [values, setValues] = useState({
     event: '',
-    organizer: '',
+    organizer: user.id,
     description: '',
     location: '',
     type: '',
@@ -99,8 +101,8 @@ export default function CreateEvent() {
                 <TextField onChange={handleInput} name='event' variant='outlined' />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography style={{ marginRight: '10px' }}>Organizer</Typography>
-                <TextField onChange={handleInput} name='organizer' variant='outlined' />
+                <Typography style={{ marginRight: '10px' }}>Organizer ID</Typography>
+                <TextField disabled value={user.id} name='organizer' variant='outlined' />
               </div>
             </div>
             <div>
@@ -169,6 +171,22 @@ export default function CreateEvent() {
             </Button>
           </div>
         </form>
+      </div>
+      <div style={{ flex: 'none', width: '250px', position: 'relative', height: '100%' }}>
+        <img
+          src={bg}
+          alt='background'
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            position: 'absolute',
+            top: '0',
+            left: 'auto',
+            right: '0',
+            transform: 'scaleX(1)',
+          }}
+        />
       </div>
     </div>
   )

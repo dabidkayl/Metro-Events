@@ -29,6 +29,9 @@ export default function Requests() {
   ]
 
   const handleButtonClick = (row, action) => {
+    console.log(userID)
+    console.log(row.requestID)
+    console.log(action)
     if (row.status !== 'Approved' && row.status !== 'Declined') {
       axios
         .post('http://localhost:8080/request/action', {
@@ -37,6 +40,7 @@ export default function Requests() {
           userID: userID,
         })
         .then(res => {
+          console.log(res.data)
           if (res.data.success) {
             const updatedRows = rows.map(r => {
               if (r.requestID === row.requestID) {
@@ -83,8 +87,9 @@ export default function Requests() {
     axios
       .get('http://localhost:8080/requests')
       .then(response => {
+        console.log(response.data)
         const updatedRows = response.data.map((row, index) => {
-          setUserID(row.userID)
+          setUserID(response.data[0].userID)
           const date = new Date(row.requestDate)
           const options = { year: 'numeric', month: 'long', day: 'numeric' }
           const formattedDate = date.toLocaleDateString(undefined, options)

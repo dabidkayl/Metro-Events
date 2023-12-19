@@ -112,6 +112,12 @@ export default function YourEvents() {
     { field: 'eventType', headerName: 'Type', flex: 1 },
     { field: 'eventLocation', headerName: 'Location', flex: 2 },
     {
+      field: 'participantCount',
+      headerName: 'Participants',
+      flex: 1,
+      renderCell: params => <div>{params.row.participantCount}</div>,
+    },
+    {
       field: 'cancelEvent',
       headerName: 'Cancel Event',
       flex: 1,

@@ -18,6 +18,33 @@ export default function Login() {
     setValues(prev => ({ ...prev, [e.target.name]: [e.target.value] }))
   }
 
+  // const handleSubmit = e => {
+  //   e.preventDefault()
+  //   const err = validation(values)
+  //   setErrors(err)
+
+  //   const email = values.email[0]
+  //   const password = values.password[0]
+
+  //   if (err.email === '' && err.password === '') {
+  //     axios
+  //       .post('http://localhost:8080/login', { email, password })
+  //       .then(res => {
+  //         if (res.data.success) {
+  //           console.log(res.data.data)
+  //           setUser(res.data.data)
+  //           navigate('/home')
+  //         } else {
+  //           setErrors(prevErrors => ({
+  //             ...prevErrors,
+  //             submit: 'Invalid username or password. Please try again.',
+  //           }))
+  //         }
+  //       })
+  //       .catch(err => console.log(err))
+  //   }
+  // }
+
   const handleSubmit = e => {
     e.preventDefault()
     const err = validation(values)
@@ -31,8 +58,22 @@ export default function Login() {
         .post('http://localhost:8080/login', { email, password })
         .then(res => {
           if (res.data.success) {
+            const userType = res.data.data.type
             setUser(res.data.data)
-            navigate('/home')
+            console.log(res.data.data)
+            switch (userType) {
+              case 'user':
+                navigate('/home')
+                break
+              case 'organizer':
+                navigate('/create-event')
+                break
+              case 'admin':
+                navigate('/requests')
+                break
+              default:
+                break
+            }
           } else {
             setErrors(prevErrors => ({
               ...prevErrors,

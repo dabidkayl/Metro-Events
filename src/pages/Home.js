@@ -8,7 +8,7 @@ import joinbg from '../assets/images/joinbg.jpg'
 
 export default function Home() {
   const { user } = useContext(UserContext)
-
+  console.log(user.id)
   const handleRequestNow = () => {
     axios
       .post('http://localhost:8080/request', { userID: user.id })

@@ -171,9 +171,16 @@ export default function PersistentDrawer({ user }) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
                 <MenuItem onClick={handleClose}>
-                  <Link to='/login' style={{ textDecoration: 'none' }}>
+                  <Link
+                    to={`/profile/${user.id}`}
+                    style={{ textDecoration: 'none', color: 'inherit' }}
+                  >
+                    Profile
+                  </Link>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <Link to='/login' style={{ textDecoration: 'none', color: 'inherit' }}>
                     Logout
                   </Link>
                 </MenuItem>

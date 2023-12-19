@@ -17,7 +17,7 @@ const formatEventDate = dateString => {
   return date.toLocaleDateString(undefined, options)
 }
 
-export default function User() {
+export default function ListEvents() {
   const [rows, setRows] = useState([])
 
   useEffect(() => {
@@ -27,16 +27,15 @@ export default function User() {
         const formattedRows = response.data.map((row, index) => ({
           ...row,
           id: index + 1,
-          eventDate: formatEventDate(row.eventDate), // Apply date formatting
+          eventDate: formatEventDate(row.eventDate),
         }))
-        setRows(formattedRows) // Set rows state with the formatted date
+        setRows(formattedRows)
       })
       .catch(error => {
         console.error('Error fetching data:', error)
       })
   }, [])
 
-  // Function to generate unique IDs for rows
   const getRowId = row => row.id
 
   return (
@@ -61,7 +60,7 @@ export default function User() {
           columns={columns}
           pagination
           pageSize={5}
-          getRowId={getRowId} // Specify the function to generate unique IDs
+          getRowId={getRowId}
           style={{ width: '100%', height: '100%' }}
         />
       </div>

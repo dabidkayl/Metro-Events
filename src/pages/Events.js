@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom'
 export default function Events() {
   const [events, setEvents] = useState([])
   const { setSelectedEvent } = useContext(EventContext)
-
   const handleEventClick = event => {
     console.log(event)
     setSelectedEvent(event)
@@ -57,7 +56,7 @@ export default function Events() {
                 onClick={() => handleEventClick(event)}
               >
                 <EventCard
-                  key={event.eventID}
+                  key={event.eventId}
                   title={event.eventName}
                   description={event.eventDescription}
                   image={event.imageUrl}
