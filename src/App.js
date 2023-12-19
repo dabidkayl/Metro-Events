@@ -16,6 +16,7 @@ import { EventProvider } from './components/EventProvider'
 import JoinedEvents from './pages/JoinedEvents'
 import YourEvents from './pages/YourEvents'
 import ListEvents from './pages/ListEvents'
+import Profile from './pages/Profile'
 
 const theme = createTheme({
   typography: {
@@ -40,6 +41,7 @@ function App() {
                     <Routes>
                       <Route index element={<Home />} />
                       <Route path='/dashboard' element={<Dashboard />} />
+                      <Route path='/profile/:userID' element={<Profile />} />
                       <Route path='/requests' element={<Requests />} />
                       <Route path='/users' element={<User />} />
                       <Route path='/home' element={<Home />} />

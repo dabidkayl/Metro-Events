@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react'
-import { EventContext } from '../components/EventProvider'
+import React, { useContext, useState, useEffect } from 'react'
+
 import bg from '../assets/images/bg.jpg'
 import {
   Button,
@@ -10,6 +10,7 @@ import {
   TextField,
   Select,
   MenuItem,
+  IconButton,
 } from '@mui/material'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
@@ -17,24 +18,46 @@ import LocationOnIcon from '@mui/icons-material/LocationOn'
 import EventIcon from '@mui/icons-material/Event'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
 import { UserContext } from '../components/UserProvider'
+import { EventContext } from '../components/EventProvider'
 import axios from 'axios'
 
 export default function EventDetails() {
+  const [upvoted, setUpvoted] = useState(false)
+  const [upvoteCount, setUpvoteCount] = useState(0)
   const { user } = useContext(UserContext)
   const { selectedEvent } = useContext(EventContext)
   const [openDialog, setOpenDialog] = useState(false)
+
+  console.log(selectedEvent.upvote)
   const [values, setValues] = useState({
-    first_name: '',
-    last_name: '',
+    first_name: user.firstName,
+    last_name: user.lastName,
     gender: '',
     age: '',
     address: '',
-    email: '',
+    email: user.email,
     event_id: selectedEvent.eventID,
     user_id: user.id,
+    upvote: upvoteCount,
   })
+
+  useEffect(() => {
+    if (selectedEvent && selectedEvent.upvote) {
+      setUpvoteCount(selectedEvent.upvote)
+    }
+  }, [selectedEvent])
+
+  const handleUpvoteClick = () => {
+    if (!upvoted) {
+      setUpvoteCount(prevCount => prevCount + 1)
+      setUpvoted(true)
+    } else {
+      setUpvoteCount(prevCount => prevCount - 1)
+      setUpvoted(false)
+    }
+  }
 
   const handleInput = e => {
     setValues(prev => ({ ...prev, [e.target.name]: [e.target.value] }))
@@ -47,7 +70,7 @@ export default function EventDetails() {
       .post('http://localhost:8080/join-event', values)
       .then(res => {
         console.log(res.data)
-        alert('Successfully joined the event')
+        alert(res.data.message)
       })
       .catch(err => {
         console.error(err)
@@ -108,38 +131,42 @@ export default function EventDetails() {
         style={{
           flex: '1',
           width: 'calc(100% - 250px)',
-          overflow: 'hidden',
           height: '100%',
           padding: '50px',
+          boxSizing: 'border-box',
+          position: 'relative',
         }}
       >
-        <div style={{ border: '1px solid #F2AE2E', padding: '20px' }}>
+        <div style={{ border: '1px solid #F2AE2E', padding: '20px', height: '100%' }}>
+          {/* event image */}
+          <img
+            src={selectedEvent.imageUrl}
+            alt='background'
+            style={{
+              width: '50%',
+              height: '50%',
+              marginRight: '30px',
+              marginLeft: '40px',
+              display: 'block',
+              float: 'right',
+            }}
+          />
           {/* event name */}
-          <h1 style={{ marginBottom: -15, color: '#FFD356' }}>
+          <h1 style={{ marginBottom: -15, marginTop: '-5px', color: '#FFD356' }}>
             {selectedEvent.eventName}&nbsp;
             {selectedEvent.eventStatus === 'Active' ? (
               <CheckCircleIcon style={{ fontSize: 24, color: 'green', marginRight: 4 }} />
             ) : null}
           </h1>
 
-          <img
-            src={selectedEvent.imageUrl}
-            alt='background'
-            style={{
-              width: '200px',
-              height: '100px%',
-            }}
-          />
-
           {/* event details */}
           <h4 style={{ marginBottom: -15, color: '#F2AE2E' }}>Event Details:</h4>
 
           {/*event location*/}
-          <p style={{ fontSize: 16, marginBottom: -14 }}>
+          <p style={{ fontSize: 16, marginBottom: -14, display: 'block' }}>
             <LocationOnIcon style={{ fontSize: 14, marginRight: 1 }} />
             {selectedEvent.eventLocation}
           </p>
-
           {/* event date */}
           <p style={{ fontSize: 16, marginBottom: -14 }}>
             <EventIcon style={{ fontSize: 14, marginRight: 4 }} />
@@ -156,7 +183,6 @@ export default function EventDetails() {
           <p>
             Status:
             <strong>
-              {' '}
               {selectedEvent.eventStatus === 'Active' ? (
                 <span style={{ color: 'green' }}>{selectedEvent.eventStatus}</span>
               ) : selectedEvent.eventStatus === 'Cancelled' ? (
@@ -167,21 +193,41 @@ export default function EventDetails() {
             </strong>
           </p>
 
+          {/* upvote button + count */}
+          <div style={{ display: 'flex', alignItems: 'center', marginTop: '-18px' }}>
+            <IconButton
+              size='small'
+              color='primary'
+              aria-label='upvote'
+              style={{ color: '#F2AE2E', marginRight: '8px', marginLeft: '-5px' }}
+              onClick={handleUpvoteClick}
+            >
+              <ThumbUpIcon fontSize='small' />
+            </IconButton>
+            <span style={{ color: '#F2AE2E', fontSize: '16px' }}>{upvoteCount} likes</span>
+          </div>
+          {/* join button  */}
+          <Button
+            variant='contained'
+            size='small'
+            onClick={handleJoinClick}
+            style={{
+              marginBottom: '-8px',
+              marginLeft: '-5px',
+              backgroundColor: '#F2AE2E',
+              color: 'white',
+              marginTop: '10px',
+            }}
+          >
+            Join Now
+          </Button>
+
           {/* event description */}
           <h4 style={{ marginBottom: -15, color: '#F2AE2E' }}>Event Description:</h4>
           <p style={{ textAlign: 'justify' }}>
             <em>{selectedEvent.eventDescription}</em>
           </p>
 
-          {/* join button  */}
-          <Button
-            variant='contained'
-            size='medium'
-            onClick={handleJoinClick}
-            style={{ backgroundColor: '#F2AE2E', color: 'white' }}
-          >
-            Join Now
-          </Button>
           <form action='' onSubmit={handleSubmit}>
             <Dialog open={openDialog} onClose={handleClose}>
               <DialogTitle style={{ marginBottom: 10 }}>
@@ -212,7 +258,8 @@ export default function EventDetails() {
                 <form style={{ margin: '10px', marginLeft: 0 }}>
                   {/* Name */}
                   <TextField
-                    onChange={handleInput}
+                    value={user.firstName}
+                    // onChange={handleInput}
                     name='first_name'
                     label='First'
                     variant='outlined'
@@ -221,7 +268,8 @@ export default function EventDetails() {
                   />
 
                   <TextField
-                    onChange={handleInput}
+                    value={user.lastName}
+                    // onChange={handleInput}
                     name='last_name'
                     label='Last'
                     variant='outlined'
@@ -270,7 +318,8 @@ export default function EventDetails() {
 
                   {/* email */}
                   <TextField
-                    onChange={handleInput}
+                    // onChange={handleInput}
+                    value={user.email}
                     name='email'
                     label='Email'
                     variant='outlined'
